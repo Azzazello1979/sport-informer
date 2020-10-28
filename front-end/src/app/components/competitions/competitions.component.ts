@@ -8,8 +8,25 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./competitions.component.css'],
 })
 export class CompetitionsComponent implements OnInit, OnDestroy {
+  private accessibleCompetitionIds: number[] = [
+    2000,
+    2001,
+    2002,
+    2003,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2021,
+  ];
+
   public allCompetitions: any[] = [];
   public allCompetitionsSub = new Subscription();
+
+  public accessibleCompetitions: any[] = [];
 
   constructor(private mainsrvc: MainService) {}
 
@@ -29,7 +46,11 @@ export class CompetitionsComponent implements OnInit, OnDestroy {
       .allCompetitionsObservable()
       .subscribe((news) => {
         this.allCompetitions = news;
-        console.log(this.allCompetitions);
+        //console.log(this.allCompetitions);
+        this.accessibleCompetitions = this.allCompetitions.filter((c) =>
+          this.accessibleCompetitionIds.includes(c.id)
+        );
+        console.log(this.accessibleCompetitions);
       });
   }
 
