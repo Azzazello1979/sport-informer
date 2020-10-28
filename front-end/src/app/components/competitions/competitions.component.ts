@@ -28,7 +28,16 @@ export class CompetitionsComponent implements OnInit, OnDestroy {
 
   public accessibleCompetitions: any[] = [];
 
+  public displayedCompetitions: any[] = [];
+
   constructor(private mainsrvc: MainService) {}
+
+  showAllCompetitions() {
+    this.displayedCompetitions = [...this.allCompetitions];
+  }
+  showAccessibleCompetitions() {
+    this.displayedCompetitions = [...this.accessibleCompetitions];
+  }
 
   returnDate(competition): string {
     return competition.currentSeason !== null
@@ -46,11 +55,12 @@ export class CompetitionsComponent implements OnInit, OnDestroy {
       .allCompetitionsObservable()
       .subscribe((news) => {
         this.allCompetitions = news;
+        this.displayedCompetitions = news;
         //console.log(this.allCompetitions);
         this.accessibleCompetitions = this.allCompetitions.filter((c) =>
           this.accessibleCompetitionIds.includes(c.id)
         );
-        console.log(this.accessibleCompetitions);
+        //console.log(this.accessibleCompetitions);
       });
   }
 

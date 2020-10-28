@@ -1,5 +1,14 @@
 <div class="competitions-wrapper">
-  <div class="competition-card" *ngFor="let competition of allCompetitions">
+  <button (click)="showAllCompetitions()">
+    Show All Competitions: {{ allCompetitions.length }}
+  </button>
+  <button (click)="showAccessibleCompetitions()">
+    Show Accessible Competitions: {{ accessibleCompetitions.length }}
+  </button>
+  <div
+    class="competition-card"
+    *ngFor="let competition of displayedCompetitions"
+  >
     <h3>{{ competition.name }} of {{ competition.area.name }}</h3>
     <p>{{ returnDate(competition) }}</p>
   </div>
