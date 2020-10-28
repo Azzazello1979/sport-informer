@@ -1,0 +1,12 @@
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+}
+
+.header {
+  border: 1px solid lightgrey;
+  height: 60px;
+  background-color: steelblue;
+  color: white;
+  padding-left: 10px;
+}

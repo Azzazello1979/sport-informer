@@ -1,10 +1,23 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [];
+import { CompetitionsComponent } from './components/competitions/competitions.component';
+import { MatchesComponent } from './components/matches/matches.component';
+import { DetailsComponent } from './components/details/details.component';
+import { NotfoundComponent } from './components/notfound/notfound.component';
+
+const routes: Routes = [
+  { path: '', component: CompetitionsComponent, pathMatch: 'full' },
+  {
+    path: ':competition',
+    component: MatchesComponent,
+    children: [{ path: ':match', component: DetailsComponent }],
+  },
+  { path: '**', component: NotfoundComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

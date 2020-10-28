@@ -10,9 +10,13 @@ import { MainService } from './services/main.service';
 
 // components
 import { AppComponent } from './app.component';
+import { CompetitionsComponent } from './components/competitions/competitions.component';
+import { MatchesComponent } from './components/matches/matches.component';
+import { DetailsComponent } from './components/details/details.component';
+import { NotfoundComponent } from './components/notfound/notfound.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, CompetitionsComponent, MatchesComponent, DetailsComponent, NotfoundComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, RouterModule],
   providers: [MainService],
   bootstrap: [AppComponent],
