@@ -1,6 +1,6 @@
 .competitions-wrapper {
   width: 100%;
-  height: calc(100vh - 60px);
+  min-height: calc(100vh - 60px);
   border: 1px solid lightgray;
   padding: 20px;
 }

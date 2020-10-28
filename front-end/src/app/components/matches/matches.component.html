@@ -1,2 +1,11 @@
-<p>matches works!</p>
-<router-outlet></router-outlet>
+<div class="matches-wrapper">
+  <h2>Matches of {{ selectedCompetition }}</h2>
+  <div class="match-card" *ngFor="let match of matches">
+    <p>
+      {{ match.homeTeam.name }}:{{ match.score.fullTime.homeTeam }} VS
+      {{ match.awayTeam.name }}:{{ match.score.fullTime.awayTeam }} -
+      {{ match.status }}
+    </p>
+  </div>
+  <!-- <router-outlet></router-outlet> -->
+</div>

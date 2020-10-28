@@ -20,13 +20,24 @@ export class MainService {
   private matches: Array<any> = [];
   private matchesChanged = new BehaviorSubject<any[]>(this.matches);
 
+  private selectedCompetition: string = '';
+  private selectedCompetitionChanged = new BehaviorSubject<string>(
+    this.selectedCompetition
+  );
+
   constructor(private http: HttpClient, private router: Router) {}
+
+  selectedCompetitionObservable() {
+    return this.selectedCompetitionChanged.asObservable();
+  }
 
   matchesObservable() {
     return this.matchesChanged.asObservable();
   }
 
   getMatchesOfCompetition(competitionId: number, competitionName: string) {
+    this.selectedCompetition = competitionName;
+    this.selectedCompetitionChanged.next(this.selectedCompetition);
     return this.http
       .get(
         `https://api.football-data.org/v2/competitions/${competitionId}/matches`,
