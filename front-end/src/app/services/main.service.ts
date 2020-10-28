@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,34 @@ export class MainService {
   private competitions: Array<any> = [];
   private competitionsChanged = new BehaviorSubject<any[]>(this.competitions);
 
-  constructor(private http: HttpClient) {}
+  private matchesResponse: any = {};
+  private matches: Array<any> = [];
+  private matchesChanged = new BehaviorSubject<any[]>(this.matches);
+
+  constructor(private http: HttpClient, private router: Router) {}
+
+  matchesObservable() {
+    return this.matchesChanged.asObservable();
+  }
+
+  getMatchesOfCompetition(competitionId: number, competitionName: string) {
+    return this.http
+      .get(
+        `https://api.football-data.org/v2/competitions/${competitionId}/matches`,
+        this.requestConfig
+      )
+      .subscribe(
+        (response) => {
+          this.matchesResponse = response;
+          this.matches = this.matchesResponse.matches;
+          this.matchesChanged.next(this.matches);
+          this.router.navigate([`${competitionName}`]);
+        },
+        (err) => {
+          return console.log(err.message);
+        }
+      );
+  }
 
   allCompetitionsObservable() {
     return this.competitionsChanged.asObservable();

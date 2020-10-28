@@ -8,6 +8,7 @@
   <div
     class="competition-card"
     *ngFor="let competition of displayedCompetitions"
+    (click)="onSelectCompetition(competition.id, competition.name)"
   >
     <h3>{{ competition.name }} of {{ competition.area.name }}</h3>
     <p>{{ returnDate(competition) }}</p>

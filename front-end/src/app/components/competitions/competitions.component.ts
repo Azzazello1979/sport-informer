@@ -32,6 +32,10 @@ export class CompetitionsComponent implements OnInit, OnDestroy {
 
   constructor(private mainsrvc: MainService) {}
 
+  onSelectCompetition(competitionId: number, competitionName: string) {
+    this.mainsrvc.getMatchesOfCompetition(competitionId, competitionName);
+  }
+
   showAllCompetitions() {
     this.displayedCompetitions = [...this.allCompetitions];
   }
