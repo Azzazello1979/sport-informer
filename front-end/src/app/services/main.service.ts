@@ -67,7 +67,7 @@ export class MainService {
             let matchesOfCompetitionResponse: any = {};
             let matchesOfCompetition: any = {};
             matchesOfCompetitionResponse = response;
-            matchesOfCompetition = matchesOfCompetitionResponse.match;
+            matchesOfCompetition = matchesOfCompetitionResponse.matches;
 
             // compare lastUpdated property of these matches with lastUpdated property
             // of stored matches...

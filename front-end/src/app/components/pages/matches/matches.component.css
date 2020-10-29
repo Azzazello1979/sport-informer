@@ -10,6 +10,7 @@
   margin: 0 auto;
 }
 button {
+  background-color: white;
   margin: 0 5px 5px 0;
 }
 .match-card {

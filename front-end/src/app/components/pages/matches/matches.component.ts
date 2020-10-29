@@ -8,6 +8,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./matches.component.css'],
 })
 export class MatchesComponent implements OnInit, OnDestroy {
+  public wentToFinishedMatchNames: string[] = [];
+  private wentToFinishedMatchNamesSub = new Subscription();
+
+  public wentToLiveMatchNames: string[] = [];
+  private wentToLiveMatchNamesSub = new Subscription();
+
   public matches: any[] = [];
   private matchesSub = new Subscription();
 
@@ -16,7 +22,30 @@ export class MatchesComponent implements OnInit, OnDestroy {
   public selectedCompetition: string = '';
   private selectedCompetitionSub = new Subscription();
 
+  public liveButtonColor: string = '';
+  public finishedButtonColor: string = '';
+
   constructor(private mainsrvc: MainService) {}
+
+  recolorLiveButton(action) {
+    if (action === 'user-click') {
+      this.liveButtonColor = 'white';
+    } else {
+      this.wentToLiveMatchNames.length > 0
+        ? (this.liveButtonColor = 'green')
+        : (this.liveButtonColor = 'white');
+    }
+  }
+
+  recolorFinishedButton(action) {
+    if (action === 'user-click') {
+      this.finishedButtonColor = 'white';
+    } else {
+      this.wentToFinishedMatchNames.length > 0
+        ? (this.finishedButtonColor = 'green')
+        : (this.finishedButtonColor = 'white');
+    }
+  }
 
   filterMatchesByStatus(status: string) {
     switch (status) {
@@ -27,6 +56,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
         this.filteredMatches = [
           ...this.matches.filter((m) => m.status === 'FINISHED'),
         ];
+        this.recolorFinishedButton('user-click');
         break;
       case 'postponed':
         this.filteredMatches = [
@@ -47,6 +77,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
         this.filteredMatches = [
           ...this.matches.filter((m) => m.status === 'LIVE'),
         ];
+        this.recolorLiveButton('user-click');
         break;
       case 'in-play':
         this.filteredMatches = [
@@ -79,10 +110,27 @@ export class MatchesComponent implements OnInit, OnDestroy {
       .subscribe((news) => {
         this.selectedCompetition = news;
       });
+
+    this.wentToLiveMatchNamesSub = this.mainsrvc
+      .wentToLiveMatchNamesObservable()
+      .subscribe((news) => {
+        this.wentToLiveMatchNames = [...news];
+        this.recolorLiveButton('update');
+        console.log(this.wentToLiveMatchNames);
+      });
+    this.wentToFinishedMatchNamesSub = this.mainsrvc
+      .wentToFinishedMatchNamesObservable()
+      .subscribe((news) => {
+        this.wentToFinishedMatchNames = [...news];
+        this.recolorFinishedButton('update');
+        console.log(this.wentToFinishedMatchNames);
+      });
   }
 
   ngOnDestroy() {
     this.matchesSub.unsubscribe();
     this.selectedCompetitionSub.unsubscribe();
+    this.wentToLiveMatchNamesSub.unsubscribe();
+    this.wentToFinishedMatchNamesSub.unsubscribe();
   }
 }

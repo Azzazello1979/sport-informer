@@ -2,11 +2,21 @@
   <h2>Matches of {{ selectedCompetition }}: ({{ filteredMatches.length }})</h2>
   <div class="filter-buttons">
     <button (click)="filterMatchesByStatus('all')">Show All</button>
-    <button (click)="filterMatchesByStatus('finished')">Show Finished</button>
+    <button
+      (click)="filterMatchesByStatus('finished')"
+      [style.backgroundColor]="finishedButtonColor"
+    >
+      Show Finished
+    </button>
     <button (click)="filterMatchesByStatus('postponed')">Show Postponed</button>
     <button (click)="filterMatchesByStatus('scheduled')">Show Scheduled</button>
     <button (click)="filterMatchesByStatus('paused')">Show Paused</button>
-    <button (click)="filterMatchesByStatus('live')">Show Live</button>
+    <button
+      (click)="filterMatchesByStatus('live')"
+      [style.backgroundColor]="liveButtonColor"
+    >
+      Show Live
+    </button>
     <button (click)="filterMatchesByStatus('in-play')">Show In-Play</button>
     <button (click)="filterMatchesByStatus('awarded')">Show Awarded</button>
   </div>
