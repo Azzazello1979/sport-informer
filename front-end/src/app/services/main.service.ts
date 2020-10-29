@@ -44,7 +44,16 @@ export class MainService {
     this.wentToLiveMatchNames
   );
 
+  private recheckCounter: number = 0;
+  private recheckConterChanged = new BehaviorSubject<number>(
+    this.recheckCounter
+  );
+
   constructor(private http: HttpClient, private router: Router) {}
+
+  recheckCounterObservable() {
+    return this.recheckConterChanged.asObservable();
+  }
 
   wentToFinishedMatchNamesObservable() {
     return this.wentToFinishedMatchNamesChanged.asObservable();
@@ -56,7 +65,8 @@ export class MainService {
 
   // run every 30 secs to see if selected competition's matches were updated or not
   initRecheckSelectedCompetitionMatches() {
-    setTimeout(() => {
+    let updatedLocalMatches = false;
+    setInterval(() => {
       return this.http
         .get(
           `https://api.football-data.org/v2/competitions/${this.selectedCompetitionId}/matches`,
@@ -64,6 +74,8 @@ export class MainService {
         )
         .subscribe(
           (response) => {
+            this.recheckCounter++;
+            console.log(this.recheckCounter);
             let matchesOfCompetitionResponse: any = {};
             let matchesOfCompetition: any = {};
             matchesOfCompetitionResponse = response;
@@ -73,29 +85,45 @@ export class MainService {
             // of stored matches...
             // if not the same, notify if any went from LIVE --> FINISHED or from SCHEDULED --> LIVE
 
-            this.matchesUpdateStatuses.forEach((storedMatch) => {
+            this.matches.forEach((storedMatch) => {
               matchesOfCompetition.forEach((freshMatch) => {
                 if (
+                  // a match was updated remotely
                   storedMatch.id === freshMatch.id &&
-                  storedMatch.lastUpdate !== freshMatch.lastUpdate
+                  storedMatch.lastUpdated !== freshMatch.lastUpdated
                 ) {
+                  // update local 'matches' array only once, to result of above new http call,
+                  // if at least one match was found where stored 'lastUpdated' was not the same as fresh 'lastUpdated'
+                  if (updatedLocalMatches === false) {
+                    this.matches = [...matchesOfCompetition];
+                    this.matchesChanged.next(this.matches);
+                    updatedLocalMatches = true;
+                  }
+
                   if (
+                    // went from live to finished
                     storedMatch.status === 'LIVE' &&
                     freshMatch.status === 'FINISHED'
                   ) {
-                    this.wentToFinishedMatchNames.push(storedMatch.name);
+                    this.wentToFinishedMatchNames.push(
+                      `${storedMatch.homeTeam.name} VS ${storedMatch.awayTeam.name}`
+                    );
                     this.wentToFinishedMatchNamesChanged.next(
                       this.wentToFinishedMatchNames
                     );
                   } else if (
+                    // went from scheduled to live
                     storedMatch.status === 'SCHEDULED' &&
                     freshMatch.status === 'LIVE'
                   ) {
-                    this.wentToLiveMatchNames.push(storedMatch.name);
+                    this.wentToLiveMatchNames.push(
+                      `${storedMatch.homeTeam.name} VS ${storedMatch.awayTeam.name}`
+                    );
                     this.wentToLiveMatchNamesChanged.next(
                       this.wentToLiveMatchNames
                     );
                   } else {
+                    // something was updated, but not the status
                     null;
                   }
                 }
@@ -107,18 +135,6 @@ export class MainService {
           }
         );
     }, 30000);
-  }
-
-  createMatchesUpdateStatuses() {
-    this.matches.forEach((m) => {
-      this.matchesUpdateStatuses.push({
-        id: m.id,
-        name: m.homeTeam.name + ' VS ' + m.awayTeam.name,
-        lastUpdate: m.lastUpdated,
-        status: m.status,
-      });
-    });
-    console.log('match update statuses:', this.matchesUpdateStatuses);
   }
 
   selectedMatchObservable() {
@@ -178,7 +194,6 @@ export class MainService {
           this.matchesChanged.next(this.matches);
           this.cleanedCompetitionName = competitionName.replace(/\s/g, '-');
           this.router.navigate([`${this.cleanedCompetitionName}`]);
-          this.createMatchesUpdateStatuses();
           this.initRecheckSelectedCompetitionMatches();
         },
         (err) => {
