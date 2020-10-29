@@ -7,9 +7,26 @@
   align-items: center;
 }
 .match-card {
-  width: 80%;
-  padding: 20px;
+  width: 70%;
+  height: 500px;
   border: 1px solid lightgray;
   border-radius: 8px;
   background-color: rgb(192, 228, 250);
+}
+.upper-section {
+  padding: 10px;
+  border: 1px solid grey;
+  border-radius: 8px 8px 0 0;
+}
+.upper-section-title {
+  width: 20%;
+  font-size: 30px;
+  margin: 0 auto;
+  text-align: center;
+  border: 1px solid green;
+}
+
+.lower-section {
+  border: 1px solid grey;
+  border-radius: 0 0 8px 8px;
 }
