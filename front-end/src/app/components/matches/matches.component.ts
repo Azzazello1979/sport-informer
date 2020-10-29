@@ -16,6 +16,10 @@ export class MatchesComponent implements OnInit, OnDestroy {
 
   constructor(private mainsrvc: MainService) {}
 
+  onMatchSelect(matchId: number) {
+    this.mainsrvc.getSelectedMatch(matchId);
+  }
+
   ngOnInit() {
     this.matchesSub = this.mainsrvc.matchesObservable().subscribe((news) => {
       this.matches = [...news];

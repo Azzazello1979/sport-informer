@@ -1,6 +1,10 @@
 <div class="matches-wrapper">
   <h2>Matches of {{ selectedCompetition }}</h2>
-  <div class="match-card" *ngFor="let match of matches">
+  <div
+    class="match-card"
+    *ngFor="let match of matches"
+    (click)="onMatchSelect(match.id)"
+  >
     <p>
       {{ match.homeTeam.name }}:{{ match.score.fullTime.homeTeam }} VS
       {{ match.awayTeam.name }}:{{ match.score.fullTime.awayTeam }} -

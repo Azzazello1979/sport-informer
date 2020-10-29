@@ -25,7 +25,34 @@ export class MainService {
     this.selectedCompetition
   );
 
+  private selectedMatchResponse: any = {};
+  private selectedMatch: any = {};
+  private selectedMatchChanged = new BehaviorSubject<any>(this.selectedMatch);
+
   constructor(private http: HttpClient, private router: Router) {}
+
+  selectedMatchObservable() {
+    return this.selectedMatchChanged.asObservable();
+  }
+
+  getSelectedMatch(matchId: number) {
+    this.http
+      .get(
+        `https://api.football-data.org/v2/matches/${matchId}`,
+        this.requestConfig
+      )
+      .subscribe(
+        (response) => {
+          this.selectedMatchResponse = response;
+          this.selectedMatch = this.selectedMatchResponse.match;
+          this.selectedMatchChanged.next(this.selectedMatch);
+          this.router.navigate([`${this.selectedCompetition}/${matchId}`]);
+        },
+        (err) => {
+          return console.log(err.message);
+        }
+      );
+  }
 
   selectedCompetitionObservable() {
     return this.selectedCompetitionChanged.asObservable();

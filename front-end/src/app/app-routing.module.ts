@@ -8,11 +8,8 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 
 const routes: Routes = [
   { path: '', component: CompetitionsComponent, pathMatch: 'full' },
-  {
-    path: ':competition',
-    component: MatchesComponent,
-    children: [{ path: ':match', component: DetailsComponent }],
-  },
+  { path: ':competition', component: MatchesComponent },
+  { path: ':competition/:match', component: DetailsComponent },
   { path: '**', component: NotfoundComponent },
 ];
 
