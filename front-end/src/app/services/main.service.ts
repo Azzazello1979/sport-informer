@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 export class MainService {
   private requestConfig = {
     headers: {
-      'X-Auth-Token': '392c41296a2e43bb80bb5233b2470e33',
+      'X-Auth-Token': environment.authToken,
     },
   };
   private competitionsResponse: any = {};
@@ -31,8 +32,6 @@ export class MainService {
   private selectedMatchChanged = new BehaviorSubject<any>(this.selectedMatch);
 
   private cleanedCompetitionName: string = '';
-
-  private matchesUpdateStatuses: any[] = [];
 
   private wentToFinishedMatchNames: string[] = [];
   private wentToFinishedMatchNamesChanged = new BehaviorSubject<string[]>(
@@ -70,7 +69,7 @@ export class MainService {
     setInterval(() => {
       return this.http
         .get(
-          `https://api.football-data.org/v2/competitions/${this.selectedCompetitionId}/matches`,
+          `${environment.apiRoot}/competitions/${this.selectedCompetitionId}/matches`,
           this.requestConfig
         )
         .subscribe(
@@ -150,10 +149,7 @@ export class MainService {
 
   getSelectedMatch(matchId: number) {
     this.http
-      .get(
-        `https://api.football-data.org/v2/matches/${matchId}`,
-        this.requestConfig
-      )
+      .get(`${environment.apiRoot}/matches/${matchId}`, this.requestConfig)
       .subscribe(
         (response) => {
           this.selectedMatchResponse = response;
@@ -185,7 +181,7 @@ export class MainService {
 
     return this.http
       .get(
-        `https://api.football-data.org/v2/competitions/${competitionId}/matches`,
+        `${environment.apiRoot}/competitions/${competitionId}/matches`,
         this.requestConfig
       )
       .subscribe(
@@ -209,7 +205,7 @@ export class MainService {
 
   getAllCompetitions() {
     return this.http
-      .get('https://api.football-data.org/v2/competitions', this.requestConfig)
+      .get(`${environment.apiRoot}/competitions`, this.requestConfig)
       .subscribe(
         (response) => {
           this.competitionsResponse = response;

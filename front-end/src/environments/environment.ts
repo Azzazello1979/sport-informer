@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  authToken: '392c41296a2e43bb80bb5233b2470e33',
+  apiRoot: 'https://api.football-data.org/v2',
 };
 
 /*
