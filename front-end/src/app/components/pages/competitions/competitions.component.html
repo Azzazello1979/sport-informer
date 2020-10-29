@@ -5,12 +5,15 @@
     competition only if you filter down result by clicking on "Show Accessible
     Competitions button"
   </p>
-  <button (click)="showAllCompetitions()">
-    Show All Competitions: {{ allCompetitions.length }}
-  </button>
-  <button (click)="showAccessibleCompetitions()">
-    Show Accessible Competitions: {{ accessibleCompetitions.length }}
-  </button>
+  <div class="upper-part">
+    <button (click)="showAllCompetitions()">
+      Show All Competitions: {{ allCompetitions.length }}
+    </button>
+    <button (click)="showAccessibleCompetitions()">
+      Show Accessible Competitions: {{ accessibleCompetitions.length }}
+    </button>
+  </div>
+
   <div
     class="competition-card"
     *ngFor="let competition of displayedCompetitions"
