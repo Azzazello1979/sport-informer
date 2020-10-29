@@ -6,6 +6,11 @@ html {
   overflow-x: hidden;
 }
 
+body {
+  --light-blue: rgb(192, 228, 250);
+  --dark-blue: rgb(104, 157, 190);
+}
+
 .grey {
   color: grey;
 }

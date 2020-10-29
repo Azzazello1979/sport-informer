@@ -65,6 +65,7 @@ export class MainService {
 
   // run every 30 secs to see if selected competition's matches were updated or not
   initRecheckSelectedCompetitionMatches() {
+    this.recheckCounter = 0;
     let updatedLocalMatches = false;
     setInterval(() => {
       return this.http

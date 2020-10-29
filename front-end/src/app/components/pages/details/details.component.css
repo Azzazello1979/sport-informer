@@ -10,7 +10,7 @@
   width: 70%;
   border: 1px solid lightgray;
   border-radius: 8px;
-  background-color: rgb(192, 228, 250);
+  background-color: var(--light-blue);
   margin: 20px;
 }
 .upper-section {
@@ -18,12 +18,12 @@
   border-radius: 8px 8px 0 0;
 }
 .upper-section-title {
-  width: 20%;
+  width: 30%;
   font-size: 30px;
   margin: 0 auto;
   text-align: center;
   padding: 10px;
-  border: 3px solid grey;
+  background-color: var(--dark-blue);
 }
 
 .lower-section {
@@ -35,6 +35,7 @@
 }
 .lower-section-left {
   width: 20%;
+  background-color: var(--dark-blue);
 }
 .lower-section-mid {
   width: 60%;
@@ -46,4 +47,5 @@
 
 .lower-section-right {
   width: 20%;
+  background-color: var(--dark-blue);
 }
