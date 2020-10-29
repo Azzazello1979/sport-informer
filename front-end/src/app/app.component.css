@@ -20,3 +20,7 @@
   transition: 1s;
   transform: rotateX(360deg);
 }
+
+i {
+  margin-right: 20px;
+}
