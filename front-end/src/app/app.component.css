@@ -11,11 +11,12 @@
 }
 .logo {
   color: white;
-  transition: 1s;
+  transition: 0.5s;
   cursor: pointer;
   outline: none;
 }
 .logo:hover {
   color: yellow;
-  transition: 1s;
+  transition: 0.5s;
+  transform: rotateX(360deg);
 }
