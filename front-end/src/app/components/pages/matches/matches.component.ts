@@ -71,6 +71,7 @@ export class MatchesComponent implements OnInit, OnDestroy {
     this.matchesSub = this.mainsrvc.matchesObservable().subscribe((news) => {
       this.matches = [...news];
       this.filteredMatches = [...news];
+
       console.log(this.matches);
     });
     this.selectedCompetitionSub = this.mainsrvc

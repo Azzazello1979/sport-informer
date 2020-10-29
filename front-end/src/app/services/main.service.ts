@@ -20,6 +20,7 @@ export class MainService {
   private matches: Array<any> = [];
   private matchesChanged = new BehaviorSubject<any[]>(this.matches);
 
+  private selectedCompetitionId: number = 0;
   private selectedCompetition: string = '';
   private selectedCompetitionChanged = new BehaviorSubject<string>(
     this.selectedCompetition
@@ -31,7 +32,94 @@ export class MainService {
 
   private cleanedCompetitionName: string = '';
 
+  private matchesUpdateStatuses: any[] = [];
+
+  private wentToFinishedMatchNames: string[] = [];
+  private wentToFinishedMatchNamesChanged = new BehaviorSubject<string[]>(
+    this.wentToFinishedMatchNames
+  );
+
+  private wentToLiveMatchNames: string[] = [];
+  private wentToLiveMatchNamesChanged = new BehaviorSubject<string[]>(
+    this.wentToLiveMatchNames
+  );
+
   constructor(private http: HttpClient, private router: Router) {}
+
+  wentToFinishedMatchNamesObservable() {
+    return this.wentToFinishedMatchNamesChanged.asObservable();
+  }
+
+  wentToLiveMatchNamesObservable() {
+    return this.wentToLiveMatchNamesChanged.asObservable();
+  }
+
+  // run every 30 secs to see if selected competition's matches were updated or not
+  initRecheckSelectedCompetitionMatches() {
+    setTimeout(() => {
+      return this.http
+        .get(
+          `https://api.football-data.org/v2/competitions/${this.selectedCompetitionId}/matches`,
+          this.requestConfig
+        )
+        .subscribe(
+          (response) => {
+            let matchesOfCompetitionResponse: any = {};
+            let matchesOfCompetition: any = {};
+            matchesOfCompetitionResponse = response;
+            matchesOfCompetition = matchesOfCompetitionResponse.match;
+
+            // compare lastUpdated property of these matches with lastUpdated property
+            // of stored matches...
+            // if not the same, notify if any went from LIVE --> FINISHED or from SCHEDULED --> LIVE
+
+            this.matchesUpdateStatuses.forEach((storedMatch) => {
+              matchesOfCompetition.forEach((freshMatch) => {
+                if (
+                  storedMatch.id === freshMatch.id &&
+                  storedMatch.lastUpdate !== freshMatch.lastUpdate
+                ) {
+                  if (
+                    storedMatch.status === 'LIVE' &&
+                    freshMatch.status === 'FINISHED'
+                  ) {
+                    this.wentToFinishedMatchNames.push(storedMatch.name);
+                    this.wentToFinishedMatchNamesChanged.next(
+                      this.wentToFinishedMatchNames
+                    );
+                  } else if (
+                    storedMatch.status === 'SCHEDULED' &&
+                    freshMatch.status === 'LIVE'
+                  ) {
+                    this.wentToLiveMatchNames.push(storedMatch.name);
+                    this.wentToLiveMatchNamesChanged.next(
+                      this.wentToLiveMatchNames
+                    );
+                  } else {
+                    null;
+                  }
+                }
+              });
+            });
+          },
+          (err) => {
+            return console.log(err.message);
+          }
+        );
+    }, 30000);
+  }
+
+  createMatchesUpdateStatuses() {
+    this.matches.forEach((m) => {
+      this.matchesUpdateStatuses.push({
+        id: m.id,
+        name: m.homeTeam.name + ' VS ' + m.awayTeam.name,
+        lastUpdate: m.lastUpdated,
+        status: m.status,
+      });
+    });
+    console.log('match update statuses:', this.matchesUpdateStatuses);
+  }
 
   selectedMatchObservable() {
     return this.selectedMatchChanged.asObservable();
@@ -74,6 +162,7 @@ export class MainService {
   }
 
   getMatchesOfCompetition(competitionId: number, competitionName: string) {
+    this.selectedCompetitionId = competitionId;
     this.selectedCompetition = competitionName;
     this.selectedCompetitionChanged.next(this.selectedCompetition);
 
@@ -89,6 +178,8 @@ export class MainService {
           this.matchesChanged.next(this.matches);
           this.cleanedCompetitionName = competitionName.replace(/\s/g, '-');
           this.router.navigate([`${this.cleanedCompetitionName}`]);
+          this.createMatchesUpdateStatuses();
+          this.initRecheckSelectedCompetitionMatches();
         },
         (err) => {
           return console.log(err.message);
