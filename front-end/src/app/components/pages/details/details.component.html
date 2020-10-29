@@ -1,8 +1,28 @@
 <div class="details-wrapper">
-  <div class="match-card">
+  <div class="match-card lovelyShadow">
     <div class="upper-section">
       <div class="upper-section-title">MATCH INFO</div>
     </div>
-    <div class="lower-section"></div>
+    <div class="lower-section">
+      <div class="lower-section-left">
+        <h3>{{ selectedMatch.homeTeam.name }}</h3>
+        <h1>{{ selectedMatch.score.fullTime.homeTeam }}</h1>
+      </div>
+      <div class="lower-section-mid">
+        <h2>
+          {{ selectedMatch.homeTeam.name }} VS {{ selectedMatch.awayTeam.name }}
+        </h2>
+        <h3>{{ selectedMatch.competition.area.name }}</h3>
+        <h2>{{ selectedMatch.venue }}</h2>
+        <img
+          [src]="selectedMatch.competition.area.ensignUrl"
+          class="lovelyShadow"
+        />
+      </div>
+      <div class="lower-section-right">
+        <h3>{{ selectedMatch.awayTeam.name }}</h3>
+        <h1>{{ selectedMatch.score.fullTime.awayTeam }}</h1>
+      </div>
+    </div>
   </div>
 </div>

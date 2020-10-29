@@ -8,13 +8,11 @@
 }
 .match-card {
   width: 70%;
-  height: 500px;
   border: 1px solid lightgray;
   border-radius: 8px;
   background-color: rgb(192, 228, 250);
 }
 .upper-section {
-  padding: 10px;
   border: 1px solid grey;
   border-radius: 8px 8px 0 0;
 }
@@ -23,10 +21,28 @@
   font-size: 30px;
   margin: 0 auto;
   text-align: center;
-  border: 1px solid green;
+  padding: 10px;
+  border: 3px solid grey;
 }
 
 .lower-section {
+  min-height: 200px;
   border: 1px solid grey;
   border-radius: 0 0 8px 8px;
+  display: flex;
+  text-align: center;
+}
+.lower-section-left {
+  width: 20%;
+}
+.lower-section-mid {
+  width: 60%;
+  border: 1px solid lightgray;
+}
+.lower-section-mid img {
+  width: 60%;
+}
+
+.lower-section-right {
+  width: 20%;
 }
