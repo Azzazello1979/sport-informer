@@ -6,17 +6,25 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 // services
-import { MainService } from './services/main.service';
+import { MainService } from 'src/app/services/main.service';
 
-// components
-import { AppComponent } from './app.component';
-import { CompetitionsComponent } from './components/competitions/competitions.component';
-import { MatchesComponent } from './components/matches/matches.component';
-import { DetailsComponent } from './components/details/details.component';
-import { NotfoundComponent } from './components/notfound/notfound.component';
+// components (page-level)
+import { AppComponent } from 'src/app/app.component';
+import { CompetitionsComponent } from 'src/app/components/pages/competitions/competitions.component';
+import { MatchesComponent } from 'src/app/components/pages/matches/matches.component';
+import { DetailsComponent } from 'src/app/components/pages/details/details.component';
+import { NotfoundComponent } from 'src/app/components/pages/notfound/notfound.component';
+
+// components (portable)
 
 @NgModule({
-  declarations: [AppComponent, CompetitionsComponent, MatchesComponent, DetailsComponent, NotfoundComponent],
+  declarations: [
+    AppComponent,
+    CompetitionsComponent,
+    MatchesComponent,
+    DetailsComponent,
+    NotfoundComponent,
+  ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, RouterModule],
   providers: [MainService],
   bootstrap: [AppComponent],
