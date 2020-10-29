@@ -6,9 +6,9 @@
     (click)="onMatchSelect(match.id)"
   >
     <p>
-      {{ match.homeTeam.name }}:{{ match.score.fullTime.homeTeam }} VS
-      {{ match.awayTeam.name }}:{{ match.score.fullTime.awayTeam }} -
-      {{ match.status }}
+      {{ match.homeTeam.name }} <mark class="bold">VS</mark>
+      {{ match.awayTeam.name }} -
+      <mark class="bold">{{ match.status }}</mark>
     </p>
   </div>
   <!-- <router-outlet></router-outlet> -->

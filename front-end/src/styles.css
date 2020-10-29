@@ -9,6 +9,10 @@ html {
 .grey {
   color: grey;
 }
+.bold {
+  font-weight: bold;
+  background: transparent;
+}
 
 .lovelyShadow {
   -webkit-box-shadow: 4px 4px 4px 0px rgba(143, 143, 143, 1);

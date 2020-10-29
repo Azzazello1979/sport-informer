@@ -5,7 +5,14 @@
   padding: 20px;
 }
 .competition-card {
+  width: 90%;
   border: 1px solid grey;
   padding: 10px;
   cursor: pointer;
+  background-color: white;
+  transition: 0.5s background-color;
+}
+.competition-card:hover {
+  background-color: yellow;
+  transition: 0.5s;
 }

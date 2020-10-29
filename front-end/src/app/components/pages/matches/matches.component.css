@@ -6,8 +6,13 @@
 }
 .match-card {
   border: 1px solid grey;
-  width: 80%;
+  width: 90%;
   padding: 10px;
-  margin: 0 auto;
   cursor: pointer;
+  transition: 0.5s background-color;
+  background-color: white;
+}
+.match-card:hover {
+  transition: 0.5s;
+  background-color: yellow;
 }

@@ -9,6 +9,7 @@
         <h1>{{ selectedMatch.score.fullTime.homeTeam }}</h1>
       </div>
       <div class="lower-section-mid">
+        <h3>{{ selectedMatch.competition.name }}</h3>
         <h2>
           {{ selectedMatch.homeTeam.name }} VS {{ selectedMatch.awayTeam.name }}
         </h2>
@@ -18,6 +19,15 @@
           [src]="selectedMatch.competition.area.ensignUrl"
           class="lovelyShadow"
         />
+        <h2>{{ selectedMatch.status }}</h2>
+        <h4>
+          Season from: {{ selectedMatch.season.startDate }} to:
+          {{ selectedMatch.season.endDate }}
+        </h4>
+        <h4>
+          Season current match day:
+          {{ selectedMatch.season.currentMatchday }}
+        </h4>
       </div>
       <div class="lower-section-right">
         <h3>{{ selectedMatch.awayTeam.name }}</h3>
