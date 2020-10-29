@@ -4,9 +4,18 @@
 }
 
 .header {
-  border: 1px solid lightgrey;
-  height: 60px;
   background-color: steelblue;
   color: white;
-  padding-left: 10px;
+  padding: 10px;
+  font-size: 26px;
+}
+.logo {
+  color: white;
+  transition: 1s;
+  cursor: pointer;
+  outline: none;
+}
+.logo:hover {
+  color: yellow;
+  transition: 1s;
 }
