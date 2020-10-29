@@ -15,8 +15,6 @@ import { MatchesComponent } from 'src/app/components/pages/matches/matches.compo
 import { DetailsComponent } from 'src/app/components/pages/details/details.component';
 import { NotfoundComponent } from 'src/app/components/pages/notfound/notfound.component';
 
-// components (portable)
-
 @NgModule({
   declarations: [
     AppComponent,

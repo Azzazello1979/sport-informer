@@ -29,10 +29,18 @@ export class MainService {
   private selectedMatch: any = {};
   private selectedMatchChanged = new BehaviorSubject<any>(this.selectedMatch);
 
+  private cleanedCompetitionName: string = '';
+
   constructor(private http: HttpClient, private router: Router) {}
 
   selectedMatchObservable() {
     return this.selectedMatchChanged.asObservable();
+  }
+
+  constructMatchTitle(): string {
+    const matchTitle = `${this.selectedMatch.homeTeam.name} VS ${this.selectedMatch.awayTeam.name}`;
+    const cleanedMatchTitle = matchTitle.replace(/\s/g, '-');
+    return cleanedMatchTitle;
   }
 
   getSelectedMatch(matchId: number) {
@@ -45,8 +53,11 @@ export class MainService {
         (response) => {
           this.selectedMatchResponse = response;
           this.selectedMatch = this.selectedMatchResponse.match;
+          const matchTitle = this.constructMatchTitle();
           this.selectedMatchChanged.next(this.selectedMatch);
-          this.router.navigate([`${this.selectedCompetition}/${matchId}`]);
+          this.router.navigate([
+            `${this.cleanedCompetitionName}/${matchTitle}`,
+          ]);
         },
         (err) => {
           return console.log(err.message);
@@ -65,6 +76,7 @@ export class MainService {
   getMatchesOfCompetition(competitionId: number, competitionName: string) {
     this.selectedCompetition = competitionName;
     this.selectedCompetitionChanged.next(this.selectedCompetition);
+
     return this.http
       .get(
         `https://api.football-data.org/v2/competitions/${competitionId}/matches`,
@@ -75,7 +87,8 @@ export class MainService {
           this.matchesResponse = response;
           this.matches = this.matchesResponse.matches;
           this.matchesChanged.next(this.matches);
-          this.router.navigate([`${competitionName}`]);
+          this.cleanedCompetitionName = competitionName.replace(/\s/g, '-');
+          this.router.navigate([`${this.cleanedCompetitionName}`]);
         },
         (err) => {
           return console.log(err.message);
@@ -94,6 +107,7 @@ export class MainService {
         (response) => {
           this.competitionsResponse = response;
           this.competitions = this.competitionsResponse.competitions;
+          console.log(this.competitions);
           this.competitionsChanged.next(this.competitions);
         },
         (err) => {
