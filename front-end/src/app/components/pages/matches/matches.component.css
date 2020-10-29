@@ -5,6 +5,13 @@
   padding: 20px;
   box-sizing: border-box;
 }
+.filter-buttons {
+  width: 90%;
+  margin: 0 auto;
+}
+button {
+  margin: 0 5px 5px 0;
+}
 .match-card {
   border: 1px solid grey;
   width: 90%;
